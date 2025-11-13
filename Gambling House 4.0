@@ -105,7 +105,7 @@ import random
 ...     while True:
 ...         print("\n====== MAIN MENU ======")
 ...         print("1. Play Slot Machine").         
-            print("2. Play number gamble")
+...         print("2. Play number gamble")
 ...         print("3. Play Blackjack")
 ...         print("4. Check balance")
 ...         print("5. Quit")
