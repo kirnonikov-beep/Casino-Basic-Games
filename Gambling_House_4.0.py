@@ -77,6 +77,10 @@ def play_blackjack(balance):
 
 def play_slot_machine(balance):
     symbols = ["Cherry", "Lemon", "Orange", "Bell", "Seven"]
+    drum1 = [1,3,4,2]
+    drum2 = [2,4,1,3]
+    drum3 = [3,2,1,4]
+
     print("\nWelcome to the Slot Machine!")
     print(f"Your current balance: {balance} coins")
 
@@ -86,7 +90,13 @@ def play_slot_machine(balance):
         return balance
 
     spin = [random.choice(symbols) for _ in range(3)]
-    print(f"[ {spin[0]} ] [ {spin[1]} ] [ {spin[2]} ]")
+    spin1 = random.randrange(0,3)
+    spin2 = random.randrange(0,3)
+    spin3 = random.randrange(0,3)
+
+    print(f". [ {symbols[drum1[(spin1-1) % 4]]} ] [ {symbols[drum2[(spin2-1) % 4]]} ] [ {symbols[drum3[(spin3-1) % 4]]} ]. ")
+    print(f"--[ {symbols[drum1[spin1]]} ] [ {symbols[drum2[spin2]]} ] [ {symbols[drum3[spin3]]} ]--")
+    print(f". [ {symbols[drum1[(spin1+1) % 4]]} ] [ {symbols[drum2[(spin2+1) % 4]]} ] [ {symbols[drum3[(spin3+1) % 4]]} ]. ")
 
     if spin[0] == spin[1] == spin[2]:
         print("Jackpot! You win triple your bet!")
