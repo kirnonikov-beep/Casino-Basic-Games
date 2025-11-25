@@ -85,41 +85,42 @@ spin_stats = {
 }
 
 def play_slot_machine(balance):
-symbols = ["Cherry", "Lemon", "Orange", "Bell", "Seven"]
-drum1 = [0,1,3,4,2]
-drum2 = [2,4,0,1,3]
-drum3 = [3,2,1,4,0]
+    symbols = ["Cherry", "Lemon", "Orange", "Bell", "Seven"]
+    drum1 = [0,1,3,4,2]
+    drum2 = [2,4,0,1,3]
+    drum3 = [3,2,1,4,0]
 
-print("\nWelcome to the Slot Machine!")
-print(f"Your current balance: {balance} coins")
+    print("\nWelcome to the Slot Machine!")
+    print(f"Your current balance: {balance} coins")
 
-bet = int(input("Enter your bet amount: "))
-if bet > balance or bet <= 0:
+    bet = int(input("Enter your bet amount: "))
+    if bet > balance or bet <= 0:
         print("Invalid bet amount.")
         return balance
-n = len(drum1)
-spin = [random.choice(symbols) for _ in range(3)]
-spin1 = random.randrange(0,4)
-spin2 = random.randrange(0,4)
-spin3 = random.randrange(0,4)
-top = [
-        symbols[drum1[(spin1-1) % n]],
-        symbols[drum2[(spin2-1) % n]],
-        symbols[drum3[(spin3-1) % n]]
-    ]
-middle = [
-        symbols[drum1[spin1]],
-        symbols[drum2[spin2]],
-        symbols[drum3[spin3]]
-    ]
-bottom = [
-        symbols[drum1[(spin1+1) % n]],
-        symbols[drum2[(spin2+1) % n]],
-        symbols[drum3[(spin3+1) % n]]
-    ]
-print(f". [ {symbols[drum1[(spin1-1) % 4]]} ] [ {symbols[drum2[(spin2-1) % 4]]} ] [ {symbols[drum3[(spin3-1) % 4]]} ]. ")
-print(f"--[ {symbols[drum1[spin1]]} ] [ {symbols[drum2[spin2]]} ] [ {symbols[drum3[spin3]]} ]--")
-print(f". [ {symbols[drum1[(spin1+1) % 4]]} ] [ {symbols[drum2[(spin2+1) % 4]]} ] [ {symbols[drum3[(spin3+1) % 4]]} ]. ")
+    n = len(drum1)
+    spin = [random.choice(symbols) for _ in range(3)]
+    spin1 = random.randrange(0,4)
+    spin2 = random.randrange(0,4)
+    spin3 = random.randrange(0,4)
+    top = [
+           
+            symbols[drum1[(spin1-1) % n]],
+            symbols[drum2[(spin2-1) % n]],
+            symbols[drum3[(spin3-1) % n]]
+        ]
+    middle = [
+            symbols[drum1[spin1]],
+            symbols[drum2[spin2]],
+            symbols[drum3[spin3]]
+        ]
+    bottom = [
+            symbols[drum1[(spin1+1) % n]],
+            symbols[drum2[(spin2+1) % n]],
+            symbols[drum3[(spin3+1) % n]]
+        ]
+    print(f". [ {symbols[drum1[(spin1-1) % 4]]} ] [ {symbols[drum2[(spin2-1) % 4]]} ] [ {symbols[drum3[(spin3-1) % 4]]} ]. ")
+    print(f"--[ {symbols[drum1[spin1]]} ] [ {symbols[drum2[spin2]]} ] [ {symbols[drum3[spin3]]} ]--")
+    print(f". [ {symbols[drum1[(spin1+1) % 4]]} ] [ {symbols[drum2[(spin2+1) % 4]]} ] [ {symbols[drum3[(spin3+1) % 4]]} ]. ")
 
 
 
