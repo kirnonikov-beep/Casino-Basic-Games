@@ -219,9 +219,9 @@ def main():
         print("2. Play number gamble")
         print("3. Play Blackjack")
         print("4. Check balance")
-        print("6. Quit")
         print("5. Play Poker Dice")
-        print("========================")
+        print("6. Quit")
+        print("=========================")
 
 
         choice = input("Choose an option (1-6): ")
