@@ -121,6 +121,18 @@ def play_slot_machine(balance):
     print(f". [ {symbols[drum1[(spin1-1) % 4]]} ] [ {symbols[drum2[(spin2-1) % 4]]} ] [ {symbols[drum3[(spin3-1) % 4]]} ]. ")
     print(f"--[ {symbols[drum1[spin1]]} ] [ {symbols[drum2[spin2]]} ] [ {symbols[drum3[spin3]]} ]--")
     print(f". [ {symbols[drum1[(spin1+1) % 4]]} ] [ {symbols[drum2[(spin2+1) % 4]]} ] [ {symbols[drum3[(spin3+1) % 4]]} ]. ")
+
+    # evaluate spin, update balance and return
+    winnings = evaluate_spin(top, middle, bottom, bet)
+    if winnings > 0:
+        print(f"You win {winnings} coins!")
+        balance += winnings
+    else:
+        print(f"You lose {bet} coins.")
+        balance -= bet
+
+    return balance
+
 def evaluate_spin(top, middle, bottom, bet):
     winnings = 0
     if middle[0] == middle[1] == middle[2]:
