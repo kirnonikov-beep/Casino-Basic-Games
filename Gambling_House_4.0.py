@@ -122,7 +122,6 @@ def play_slot_machine(balance):
     print(f"--[ {symbols[drum1[spin1]]} ] [ {symbols[drum2[spin2]]} ] [ {symbols[drum3[spin3]]} ]--")
     print(f". [ {symbols[drum1[(spin1+1) % 4]]} ] [ {symbols[drum2[(spin2+1) % 4]]} ] [ {symbols[drum3[(spin3+1) % 4]]} ]. ")
 
-    # evaluate spin, update balance and return
     winnings = evaluate_spin(top, middle, bottom, bet)
     if winnings > 0:
         print(f"You win {winnings} coins!")
@@ -135,19 +134,19 @@ def play_slot_machine(balance):
 
 def evaluate_spin(top, middle, bottom, bet):
     winnings = 0
-    if middle[0] == middle[1] == middle[2]:
+    if middle[1] == middle[2] == middle[3]:
         winnings += bet * 5
         print("Jackpot! Middle row three of a kind!")
-    elif top[0] == top[1] == top[2]:
+    elif top[1] == top[2] == top[3]:
         winnings += bet * 3
         print("Top row three of a kind!")
-    elif bottom[0] == bottom[1] == bottom[2]:
+    elif bottom[1] == bottom[2] == bottom[3]:
         winnings += bet * 3
         print("Bottom row three of a kind!")
-    elif middle[0] == middle[1] or middle[1] == middle[2] or middle[0] == middle[2]:
+    elif middle[1] == middle[2] or middle[2] == middle[3] or middle[1] == middle[3]:
         winnings += bet * 2
         print("Middle row two of a kind!")
-    elif top[0] == middle[1] == bottom[2] or bottom[0] == middle[1] == top[2] or top[2] == middle[1] == bottom[0] or bottom[2] == middle[1] == top[0]:
+    elif top[1] == middle[2] == bottom[3] or bottom[1] == middle[2] == top[3] or top[3] == middle[2] == bottom[1] or bottom[3] == middle[2] == top[1]:
         winnings += bet * 4
         print("Diagonal three of a kind!")
 
@@ -230,8 +229,8 @@ def main():
         print("1. Play Slot Machine")
         print("2. Play number gamble")
         print("3. Play Blackjack")
-        print("4. Check balance")
-        print("5. Play Poker Dice")
+        print("4. Play Poker Dice")
+        print("5. Check balance")
         print("6. Quit")
         print("=========================")
 
@@ -240,13 +239,13 @@ def main():
 
         if choice == "1":
             balance = play_slot_machine(balance)
-        elif choice == "4":
+        elif choice == "5":
             print(f"Your current balance: {balance} coins")
         elif choice == "3":
             balance = play_blackjack(balance)
         elif choice == "2":
             balance = play_number_gamble(balance)
-        elif choice == "5":
+        elif choice == "4":
             balance = play_poker_dice(balance)
         elif choice == "6":
             print("Thanks for playing!")
