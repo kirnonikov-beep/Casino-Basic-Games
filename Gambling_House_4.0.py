@@ -181,10 +181,10 @@ def payout_multiplier(category):
         "Five of a kind": 10,
         "Four of a kind": 7,
         "Full house": 5,
-        "Straight": 4,
-        "Three of a kind": 3,
-        "Two pairs": 2,
-        "One pair": 1,
+        "Straight": 3,
+        "Three of a kind": 2,
+        "Two pairs": 1.1,
+        "One pair": 0,
         "Nothing": 0
     }
     return table.get(category, 0)
