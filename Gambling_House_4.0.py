@@ -217,6 +217,62 @@ def play_poker_dice(balance):
 
     return balance
 
+def play_roulette(balance):
+    print("\nWelcome to Roulette!")
+    print(f"Your current balance: {balance} coins")
+
+    bet = int(input("Bet amount: "))
+    if bet <= 0 or bet > balance:
+        print("Invalid bet.")
+        return balance
+
+    choice = input("Choose your bet (0-36, red, black, even, odd): ").lower()
+
+    
+    winning_number = random.randint(0, 36)
+
+    
+    red_numbers = {1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36}
+
+    if winning_number == 0:
+        color = "green"
+    elif winning_number in red_numbers:
+        color = "red"
+    else:
+        color = "black"
+
+    odd_even = "even" if winning_number % 2 == 0 and winning_number != 0 else "odd"
+
+    print(f"The winning number is {winning_number} ({color}, {odd_even}).")
+
+   
+    if choice.isdigit():
+        if int(choice) == winning_number:
+            print("You won! 35 to 1 payout!")
+            balance += bet * 35
+        else:
+            print("You lost.")
+            balance -= bet
+        return balance
+
+    if choice == "red" and color == "red":
+        print("You won!")
+        balance += bet
+    elif choice == "black" and color == "black":
+        print("You won!")
+        balance += bet
+    elif choice == "even" and odd_even == "even":
+        print("You won!")
+        balance += bet
+    elif choice == "odd" and odd_even == "odd":
+        print("You won!")
+        balance += bet
+    else:
+        print("You lost!")
+        balance -= bet
+
+    return balance
+
 
 
 
@@ -230,8 +286,9 @@ def main():
         print("2. Play number gamble")
         print("3. Play Blackjack")
         print("4. Play Poker Dice")
-        print("5. Check balance")
-        print("6. Quit")
+        print("5. Play Roulette")
+        print("6. Check Balance")
+        print("7. Quit")
         print("=========================")
 
 
@@ -239,7 +296,7 @@ def main():
 
         if choice == "1":
             balance = play_slot_machine(balance)
-        elif choice == "5":
+        elif choice == "6":
             print(f"Your current balance: {balance} coins")
         elif choice == "3":
             balance = play_blackjack(balance)
@@ -247,7 +304,9 @@ def main():
             balance = play_number_gamble(balance)
         elif choice == "4":
             balance = play_poker_dice(balance)
-        elif choice == "6":
+        elif choice == "5":
+            balance = play_roulette(balance)
+        elif choice == "7":
             print("Thanks for playing!")
             break
         else:
