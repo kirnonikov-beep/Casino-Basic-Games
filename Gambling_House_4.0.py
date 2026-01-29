@@ -25,6 +25,13 @@ def play_number_gamble(balance):
     return balance
 
 
+def create_shoe():
+    """Create a shoe with 4 decks shuffled together."""
+    deck = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11]
+    shoe = deck * 4
+    random.shuffle(shoe)
+    return shoe
+
 def play_blackjack(balance):
     print("\nWelcome to Blackjack!")
     print(f"Your current balance: {balance} coins")
@@ -34,46 +41,106 @@ def play_blackjack(balance):
     if bet > balance or bet <= 0:
         print("Invalid bet amount.")
         return balance
-
-    cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11]
-
-    player_hand = [random.choice(cards), random.choice(cards)]
-    dealer_hand = [random.choice(cards), random.choice(cards)]
+    shoe = create_shoe()
+    player_hand = [shoe.pop(), shoe.pop()]
+    if len(shoe) < 10:
+        shoe = create_shoe()
+    if sum(player_hand) == 21:
+        print(f"Your cards: {player_hand}, total = {sum(player_hand)}")
+        print("Blackjack! You win!")
+        balance += int(1.5 * bet)
+        return balance
+    dealer_hand = [shoe.pop(), shoe.pop()]
+    if sum(dealer_hand) == 21:
+        print(f"Dealer's cards: {dealer_hand}, total = {sum(dealer_hand)}")
+        print("Dealer has Blackjack! You lose.")
+        balance -= bet
+        return balance
+    elif sum(dealer_hand) == 21 and sum(player_hand) == 21:
+        print(f"Dealer's cards: {dealer_hand}, total = {sum(dealer_hand)}")
+        print("Both have Blackjack! It's a tie.")
+        balance += bet
+        return balance
 
     print(f"Your cards: {player_hand}, total = {sum(player_hand)}")
     print(f"Dealer shows: {dealer_hand[0]}")
 
     while sum(player_hand) < 21:
-        move = input("Do you want to (h)it or (s)tand? ").lower()
+        move = input("Do you want to (h)it or (s)tand or (d)ouble or S(p)lit? ").lower()
         if move == "h":
-            player_hand.append(random.choice(cards))
+            player_hand.append(shoe.pop())
+            if len(shoe) < 10:
+                shoe = create_shoe()
             print(f"Your cards: {player_hand}, total = {sum(player_hand)}")
         elif move == "s":
             break
+        elif move == "d":
+            if bet <= balance:
+                bet *= 2
+                print("You doubled your bet.")
+                player_hand.append(shoe.pop())
+                if len(shoe) < 10:
+                    shoe = create_shoe()
+                print(f"Your cards: {player_hand}, total = {sum(player_hand)}")
+                
+                break
+            else:
+                print("Not enough coins to double your bet.")
+        elif move == "p":
+            if player_hand[0] == player_hand[1] and bet <= balance:
+                print("You split your hand.")
+                balance -= bet   # pay second bet
+
+                first_bet = bet
+                second_bet = bet
+                first_hand = [player_hand[0], shoe.pop()]
+                second_hand = [player_hand[1], shoe.pop()]
+
+                if len(shoe) < 10:
+                    shoe = create_shoe()
+
+                print(f"First hand: {first_hand}, total = {sum(first_hand)}")
+                print(f"Second hand: {second_hand}, total = {sum(second_hand)}")
+
+                for hand, hand_bet in [(first_hand, first_bet), (second_hand, second_bet)]:
+                    while sum(hand) < 21:
+                        move = input(f"Do you want to (h)it or (s)tand for hand {hand}? ").lower()
+                        if move == "h":
+                            hand.append(shoe.pop())
+                        if len(shoe) < 10:
+                            shoe = create_shoe()
+                        print(f"Hand: {hand}, total = {sum(hand)}")
+                        if move == "s":
+                            break
+
         else:
-            print("Invalid input. Please choose 'h' or 's'.")
+            print("Invalid input. Please choose 'h' or 's' or 'd' or 'p'.")
 
-    player_total = sum(player_hand)
-    dealer_total = sum(dealer_hand)
-    while dealer_total < 17:
-        dealer_hand.append(random.choice(cards))
+        player_total = sum(player_hand)
         dealer_total = sum(dealer_hand)
+        while dealer_total < 17:
+            dealer_hand.append(shoe.pop())
+            if len(shoe) < 10:
+                shoe = create_shoe()
+            dealer_total = sum(dealer_hand)
+            while player_total > 21 and 11 in player_hand:
+                player_total -= 10
+            while dealer_total > 21 and 11 in dealer_hand:
+                dealer_total -= 10
+            print(f"Dealer's cards: {dealer_hand}, total = {dealer_total}")
 
-    print(f"Dealer's cards: {dealer_hand}, total = {dealer_total}")
-
-    if player_total > 21:
-        print("You busted! Dealer wins.")
-        balance -= bet
-    elif dealer_total > 21 or player_total > dealer_total:
-        print("You win!")
-        balance += bet
-    elif player_total == dealer_total:
-        print("It's a tie!")
-    else:
-        print("Dealer wins.")
-        balance -= bet
-
-    return balance
+        if player_total > 21:
+            print("You busted! Dealer wins.")
+            balance -= bet
+        elif dealer_total > 21 or player_total > dealer_total:
+            print("You win!")
+            balance += bet
+        elif player_total == dealer_total:
+            print("It's a tie!")
+        else:
+            print("Dealer wins.")
+            balance -= bet
+        return balance
 
 spin_stats = {
     "total": Counter(),
@@ -292,7 +359,7 @@ def main():
         print("=========================")
 
 
-        choice = input("Choose an option (1-6): ")
+        choice = input("Choose an option (1-7): ")
 
         if choice == "1":
             balance = play_slot_machine(balance)
