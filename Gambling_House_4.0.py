@@ -113,21 +113,21 @@ def play_blackjack(balance):
                         if move == "s":
                             break
 
-        else:
-            print("Invalid input. Please choose 'h' or 's' or 'd' or 'p'.")
+    else:
+        print("Invalid input. Please choose 'h' or 's' or 'd' or 'p'.")
 
-        player_total = sum(player_hand)
+    player_total = sum(player_hand)
+    dealer_total = sum(dealer_hand)
+    while dealer_total < 17:
+        dealer_hand.append(shoe.pop())
+        if len(shoe) < 10:
+            shoe = create_shoe()
         dealer_total = sum(dealer_hand)
-        while dealer_total < 17:
-            dealer_hand.append(shoe.pop())
-            if len(shoe) < 10:
-                shoe = create_shoe()
-            dealer_total = sum(dealer_hand)
-            while player_total > 21 and 11 in player_hand:
-                player_total -= 10
-            while dealer_total > 21 and 11 in dealer_hand:
-                dealer_total -= 10
-            print(f"Dealer's cards: {dealer_hand}, total = {dealer_total}")
+        while player_total > 21 and 11 in player_hand:
+            player_total -= 10
+        while dealer_total > 21 and 11 in dealer_hand:
+            dealer_total -= 10
+        print(f"Dealer's cards: {dealer_hand}, total = {dealer_total}")
 
         if player_total > 21:
             print("You busted! Dealer wins.")
@@ -141,6 +141,8 @@ def play_blackjack(balance):
             print("Dealer wins.")
             balance -= bet
         return balance
+    
+    return balance
 
 spin_stats = {
     "total": Counter(),
@@ -201,19 +203,22 @@ def play_slot_machine(balance):
 
 def evaluate_spin(top, middle, bottom, bet):
     winnings = 0
-    if middle[1] == middle[2] == middle[3]:
+    if middle[0] == middle[1] == middle[2]:
         winnings += bet * 5
         print("Jackpot! Middle row three of a kind!")
-    elif top[1] == top[2] == top[3]:
+    elif top[0] == top[1] == top[2]:
         winnings += bet * 3
         print("Top row three of a kind!")
-    elif bottom[1] == bottom[2] == bottom[3]:
+    elif bottom[0] == bottom[1] == bottom[2]:
         winnings += bet * 3
         print("Bottom row three of a kind!")
-    elif middle[1] == middle[2] or middle[2] == middle[3] or middle[1] == middle[3]:
+    elif middle[0] == middle[1] or middle[1] == middle[2] or middle[0] == middle[2]:
         winnings += bet * 2
         print("Middle row two of a kind!")
-    elif top[1] == middle[2] == bottom[3] or bottom[1] == middle[2] == top[3] or top[3] == middle[2] == bottom[1] or bottom[3] == middle[2] == top[1]:
+    elif middle[0] == middle[1] == middle[2]:
+        winnings += bet * 2
+        print("Middle row three of a kind!")
+    elif top[0] == middle[1] == bottom[2] or bottom[0] == middle[1] == top[2] or top[2] == middle[1] == bottom[0] or bottom[2] == middle[1] == top[0]:
         winnings += bet * 4
         print("Diagonal three of a kind!")
 
@@ -374,13 +379,13 @@ def main():
         elif choice == "5":
             balance = play_roulette(balance)
         elif choice == "7":
-            print("Thanks for playing!")
+            print("Thanks for playing!:)")
             break
         else:
             print("Invalid choice. Try again.")
 
         if balance <= 0:
-            print("You're out of coins! Game over.")
+            print("You're out of coins! How irresponsible, how will you pay the taxes? Game over.")
             break
 
 main()
