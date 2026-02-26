@@ -2,13 +2,13 @@ import random
 from collections import Counter
 
 def play_number_gamble(balance):
-    print("\nWelcome to the Number Gamble Game!")
+    print("\nWelcome to the Number Gamble Game!V1.5")
     print(f"Your current balance: {balance} coins")
 
     bet = int(input("How many coins do you want to bet? "))
 
     if bet > balance or bet <= 0:
-        print("Invalid bet amount.")
+        print("Invalid bet amount. Loans haven't been invented yet, so you can't bet more than you have.")
         return balance
 
     player_number = int(input("Pick a number between 1 and 10: "))
@@ -33,13 +33,13 @@ def create_shoe():
     return shoe
 
 def play_blackjack(balance):
-    print("\nWelcome to Blackjack!")
+    print("\nWelcome to Blackjack!V7.4")
     print(f"Your current balance: {balance} coins")
 
     bet = int(input("How many coins do you want to bet? "))
 
     if bet > balance or bet <= 0:
-        print("Invalid bet amount.")
+        print("Invalid bet amount. Loans haven't been invented yet, so you can't bet more than you have.")
         return balance
     shoe = create_shoe()
     player_hand = [shoe.pop(), shoe.pop()]
@@ -159,12 +159,12 @@ def play_slot_machine(balance):
     drum2 = [2,4,0,1,3]
     drum3 = [3,2,1,4,0]
 
-    print("\nWelcome to the Slot Machine!")
+    print("\nWelcome to the Slot Machine!V5.0")
     print(f"Your current balance: {balance} coins")
 
     bet = int(input("Enter your bet amount: "))
     if bet > balance or bet <= 0:
-        print("Invalid bet amount.")
+        print("Invalid bet amount. Loans haven't been invented yet, so you can't bet more than you have.")
         return balance
     n = len(drum1)
     spin = [random.choice(symbols) for _ in range(3)]
@@ -270,7 +270,7 @@ def play_poker_dice(balance):
         return balance
 
     if bet <= 0 or bet > balance:
-        print("Invalid bet amount.")
+        print("Invalid bet amount. Loans haven't been invented yet, so you can't bet more than you have.")
         return balance
 
     dice = roll_dice()
@@ -290,12 +290,12 @@ def play_poker_dice(balance):
     return balance
 
 def play_roulette(balance):
-    print("\nWelcome to Roulette!")
+    print("\nWelcome to Roulette!V3.3")
     print(f"Your current balance: {balance} coins")
 
     bet = int(input("Bet amount: "))
     if bet <= 0 or bet > balance:
-        print("Invalid bet.")
+        print("Invalid bet. Loans haven't been invented yet, so you can't bet more than you have.")
         return balance
 
     choice = input("Choose your bet (0-36, red, black, even, odd): ").lower()
@@ -345,8 +345,28 @@ def play_roulette(balance):
 
     return balance
 
-
-
+def play_horse_racing(balance):
+    horses = ["Yellow", "Red", "Green", "Blue", "Purple"]
+    print ("Welcome to Horse Racing! V1.0")
+    print(f"Your current balance: {balance} coins")
+    bet = int(input("Bet amount: "))
+    if bet <= 0 or bet > balance:
+        print("Invalid bet. Loans haven't been invented yet, so you can't bet more than you have.")
+        return balance
+    print("Horses:", ", ".join(horses))
+    choice = input("Choose a horse to bet on: ").capitalize()
+    if choice not in horses:
+        print("Invalid horse choice.")
+        return balance
+    winning_horse = random.choice(horses)
+    print(f"Winning Horse is {winning_horse}!")
+    if choice == winning_horse:
+            print("You won the very fair and special horse race! x4 payout!")
+            balance += bet * 4
+    else:
+            print("You lost to a RANDOMLY SELECTED HORSE! How could you lose to a random selection? You should be ashamed of yourself.")
+            balance -= bet
+    return balance
 
 def main():
     balance = 20
@@ -359,16 +379,18 @@ def main():
         print("3. Play Blackjack")
         print("4. Play Poker Dice")
         print("5. Play Roulette")
-        print("6. Check Balance")
-        print("7. Quit")
+        print("6. Play Horse Racing")
+        print("7. Check Balance")
+        print("8. Quit")
         print("=========================")
+        print("This is a project in work with no visuals whatsoever, so I hope you have a vivid imagination! :)")
 
 
-        choice = input("Choose an option (1-7): ")
+        choice = input("Choose an option (1-8): ")
 
         if choice == "1":
             balance = play_slot_machine(balance)
-        elif choice == "6":
+        elif choice == "7":
             print(f"Your current balance: {balance} coins")
         elif choice == "3":
             balance = play_blackjack(balance)
@@ -378,9 +400,11 @@ def main():
             balance = play_poker_dice(balance)
         elif choice == "5":
             balance = play_roulette(balance)
-        elif choice == "7":
+        elif choice == "8":
             print("Thanks for playing!:)")
             break
+        elif choice == "6":
+            balance = play_horse_racing(balance)
         else:
             print("Invalid choice. Try again.")
 
